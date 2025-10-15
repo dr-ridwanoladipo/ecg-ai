@@ -13,7 +13,9 @@ from ecg_ui_helpers import (
     display_ecg_image,
     simulate_prediction_progress,
     get_diagnosis_color_class,
-    display_prediction_results
+    display_prediction_results,
+    display_shap_analysis,
+    display_clinical_note
 )
 
 # ================ SIDEBAR TOGGLE ================
@@ -102,6 +104,15 @@ def main():
             simulate_prediction_progress()
             st.success("✅ AI prediction complete for selected case.")
             display_prediction_results(selected_case)
+
+            st.markdown("---")
+            col1, col2 = st.columns(2)
+            with col1:
+                st.markdown("#### 🧠 SHAP Demographics Analysis")
+                display_shap_analysis(case_id)
+            with col2:
+                st.markdown("#### 📝 Clinical Assessment")
+                display_clinical_note(selected_case)
 
 
 # ================ EXECUTION ================

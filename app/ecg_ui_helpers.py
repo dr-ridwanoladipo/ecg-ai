@@ -385,3 +385,37 @@ def display_prediction_results(case_data, show_differential=True):
 
         styled_df = predictions_df.style.apply(style_diagnosis, axis=1)
         st.dataframe(styled_df, width="stretch")
+
+
+def display_shap_analysis(case_id):
+    """Display SHAP analysis for the selected case"""
+    try:
+        base_path = Path('evaluation_results')
+        shap_path = base_path / 'curated_cases' / f'case_{case_id}_shap.png'
+
+        if shap_path.exists():
+            st.image(str(shap_path), width="stretch")
+        else:
+            st.warning("SHAP analysis not available for this case")
+
+    except Exception as e:
+        st.error(f"Error displaying SHAP analysis: {e}")
+
+
+def display_clinical_note(case_data):
+    """Display clinical note with patient information"""
+    demographics = case_data['demographics']
+
+    st.markdown(f"""
+    <div class="clinical-note">
+        <h4>📋 Clinical Assessment</h4>
+        <p><strong>Patient Demographics:</strong></p>
+        <ul>
+            <li>Age: {demographics['age']:.0f} years</li>
+            <li>Sex: {demographics['sex']}</li>
+            <li>Heart Rate: {demographics.get('heart_rate', 'N/A')} bpm</li>
+            <li>Rhythm: {demographics.get('rhythm', 'N/A')}</li>
+        </ul>
+        <p><strong>Clinical Note:</strong> {case_data['clinical_note']}</p>
+    </div>
+    """, unsafe_allow_html=True)
