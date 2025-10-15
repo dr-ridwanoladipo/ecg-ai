@@ -291,3 +291,50 @@ def display_ecg_image(case_id, view_type="single", overlay_type="clean"):
 
     except Exception as e:
         st.error(f"Error displaying ECG: {e}")
+
+
+def simulate_prediction_progress():
+    """Simulate AI prediction progress with cardiac focus"""
+    progress_text = st.empty()
+    progress_bar = st.progress(0)
+
+    stages = [
+        "Loading 12-lead ECG signal...",
+        "Preprocessing cardiac waveforms...",
+        "Analyzing rhythm and morphology...",
+        "Running ResNet-1D inference...",
+        "Generating prediction confidence...",
+        "Finalizing cardiac diagnosis..."
+    ]
+
+    for i, stage in enumerate(stages):
+        progress_text.text(stage)
+        progress_bar.progress((i + 1) / len(stages))
+        time.sleep(0.3)
+
+    progress_text.text("✅ Cardiac analysis complete!")
+    time.sleep(0.5)
+    progress_bar.empty()
+    progress_text.empty()
+
+
+def get_diagnosis_color_class(diagnosis):
+    """Get CSS class for diagnosis color coding"""
+    color_map = {
+        'Normal (NORM)': 'diagnosis-norm',
+        'Normal': 'diagnosis-norm',
+        'NORM': 'diagnosis-norm',
+        'Myocardial Infarction (MI)': 'diagnosis-mi',
+        'Myocardial Infarction': 'diagnosis-mi',
+        'MI': 'diagnosis-mi',
+        'ST-T Abnormality (STTC)': 'diagnosis-sttc',
+        'ST-T Abnormality': 'diagnosis-sttc',
+        'STTC': 'diagnosis-sttc',
+        'Conduction Disturbance (CD)': 'diagnosis-cd',
+        'Conduction Disturbance': 'diagnosis-cd',
+        'CD': 'diagnosis-cd',
+        'Hypertrophy (HYP)': 'diagnosis-hyp',
+        'Hypertrophy': 'diagnosis-hyp',
+        'HYP': 'diagnosis-hyp'
+    }
+    return color_map.get(diagnosis, 'diagnosis-norm')

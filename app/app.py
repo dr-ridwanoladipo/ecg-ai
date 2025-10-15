@@ -10,7 +10,9 @@ from ecg_ui_helpers import (
     load_custom_css,
     load_evaluation_data,
     display_model_card,
-    display_ecg_image
+    display_ecg_image,
+    simulate_prediction_progress,
+    get_diagnosis_color_class
 )
 
 # ================ SIDEBAR TOGGLE ================
@@ -90,7 +92,14 @@ def main():
 
         st.markdown(f"### 📋 Patient {case_id} - ECG Visualization")
         display_ecg_image(case_id, view_type="single", overlay_type="clean")
-        st.info("Displayed pre-colored ECG trace for selected case.")
+
+        true_class = selected_case['true_class']
+        color_class = get_diagnosis_color_class(true_class)
+        st.markdown(f"**True Diagnosis:** <span class='{color_class}'>{true_class}</span>", unsafe_allow_html=True)
+
+        if st.button("🔮 Run AI Prediction", key="predict_btn"):
+            simulate_prediction_progress()
+            st.success("✅ AI prediction complete for selected case.")
 
 
 # ================ EXECUTION ================
