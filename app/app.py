@@ -6,7 +6,12 @@ Author: Ridwan Oladipo, MD | AI Specialist
 """
 
 import streamlit as st
-from ecg_ui_helpers import load_custom_css, load_evaluation_data, display_model_card
+from ecg_ui_helpers import (
+    load_custom_css,
+    load_evaluation_data,
+    display_model_card,
+    display_ecg_image
+)
 
 # ================ SIDEBAR TOGGLE ================
 if 'sidebar_state' not in st.session_state:
@@ -81,7 +86,11 @@ def main():
         )
 
         selected_case = curated_cases[selected_case_idx]
-        st.success(f"Case {selected_case['case_id']} selected for analysis.")
+        case_id = selected_case['case_id']
+
+        st.markdown(f"### 📋 Patient {case_id} - ECG Visualization")
+        display_ecg_image(case_id, view_type="single", overlay_type="clean")
+        st.info("Displayed pre-colored ECG trace for selected case.")
 
 
 # ================ EXECUTION ================

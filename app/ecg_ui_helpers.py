@@ -264,3 +264,30 @@ def display_model_card(model_card):
         - All medical decisions should involve qualified healthcare providers
         - Model performance may vary in different clinical settings
         """)
+
+
+def display_ecg_image(case_id, view_type="single", overlay_type="clean"):
+    """Display ECG image with proper error handling"""
+    try:
+        base_path = Path('evaluation_results')
+
+        if overlay_type == "clean":
+            # Pre-colored ECG
+            if view_type == "single":
+                img_path = base_path / 'precolored_ecgs' / f'case_{case_id}_ecg_single_clean.png'
+            else:
+                img_path = base_path / 'precolored_ecgs' / f'case_{case_id}_ecg_12lead_clean.png'
+        else:
+            # Grad-CAM overlay
+            if view_type == "single":
+                img_path = base_path / 'curated_cases' / f'case_{case_id}_gradcam_single.png'
+            else:
+                img_path = base_path / 'curated_cases' / f'case_{case_id}_gradcam_12lead.png'
+
+        if img_path.exists():
+            st.image(str(img_path), width="stretch")
+        else:
+            st.error(f"ECG image not found: {img_path}")
+
+    except Exception as e:
+        st.error(f"Error displaying ECG: {e}")
