@@ -6,6 +6,7 @@ Author: Ridwan Oladipo, MD | AI Specialist
 """
 
 import streamlit as st
+from ecg_ui_helpers import load_custom_css
 
 # ================ SIDEBAR TOGGLE ================
 if 'sidebar_state' not in st.session_state:
@@ -33,9 +34,18 @@ st.markdown(
 # ================ MAIN APP ================
 def main():
     """Main application entry point"""
-    st.title("🫀 ECG Classification AI")
-    st.write("Initializing cardiac AI interface ...")
-    st.info("Base setup loaded successfully.")
+    # Load custom CSS for medical-grade UI
+    load_custom_css()
+
+    st.markdown("""
+    <div class="cardiac-header">
+        <h1>🫀 ECG Classification AI</h1>
+        <p>AI-powered cardiac arrhythmia analysis with clinical precision</p>
+        <p><strong>By Ridwan Oladipo, MD | AI Specialist</strong></p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.info("Custom styling loaded successfully.")
 
 
 # ================ EXECUTION ================
