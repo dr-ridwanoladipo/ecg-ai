@@ -6,7 +6,7 @@ Author: Ridwan Oladipo, MD | AI Specialist
 """
 
 import streamlit as st
-from ecg_ui_helpers import load_custom_css
+from ecg_ui_helpers import load_custom_css, load_evaluation_data
 
 # ================ SIDEBAR TOGGLE ================
 if 'sidebar_state' not in st.session_state:
@@ -34,7 +34,6 @@ st.markdown(
 # ================ MAIN APP ================
 def main():
     """Main application entry point"""
-    # Load custom CSS for medical-grade UI
     load_custom_css()
 
     st.markdown("""
@@ -45,7 +44,14 @@ def main():
     </div>
     """, unsafe_allow_html=True)
 
-    st.info("Custom styling loaded successfully.")
+    with st.spinner("Loading AI model and evaluation data..."):
+        curated_cases, model_card, performance_data = load_evaluation_data()
+
+    if curated_cases is None:
+        st.error("Failed to load evaluation data. Please ensure all data files are present.")
+        return
+
+    st.success("Evaluation data loaded successfully.")
 
 
 # ================ EXECUTION ================

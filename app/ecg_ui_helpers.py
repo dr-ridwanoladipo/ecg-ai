@@ -180,3 +180,30 @@ def load_custom_css():
     }
     </style>
     """, unsafe_allow_html=True)
+
+
+def load_evaluation_data():
+    """Load all evaluation data files"""
+    try:
+        # Base path to evaluation results
+        base_path = Path('evaluation_results')
+
+        # Load curated cases
+        with open(base_path / 'curated_cases.json', 'r') as f:
+            curated_cases = json.load(f)
+
+        # Load model card
+        with open(base_path / 'model_card.json', 'r') as f:
+            model_card = json.load(f)
+
+        # Load performance data
+        with open(base_path / 'performance_data.json', 'r') as f:
+            performance_data = json.load(f)
+
+        return curated_cases, model_card, performance_data
+    except FileNotFoundError as e:
+        st.error(f"Evaluation data file not found: {e}")
+        return None, None, None
+
+
+
