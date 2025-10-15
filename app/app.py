@@ -93,8 +93,28 @@ def main():
         selected_case = curated_cases[selected_case_idx]
         case_id = selected_case['case_id']
 
-        st.markdown(f"### 📋 Patient {case_id} - ECG Visualization")
-        display_ecg_image(case_id, view_type="single", overlay_type="clean")
+        # Initialize session states
+        if 'show_prediction' not in st.session_state:
+            st.session_state.show_prediction = False
+        if 'current_case_id' not in st.session_state:
+            st.session_state.current_case_id = None
+
+        # Reset when switching cases
+        if st.session_state.current_case_id != case_id:
+            st.session_state.show_prediction = False
+            st.session_state.current_case_id = case_id
+
+        st.markdown(f"### 📋 Patient {case_id} - ECG Analysis")
+
+        # Display patient ECG depending on prediction state
+        if not st.session_state.show_prediction:
+            st.markdown("#### 📊 Pre-Colored ECG Trace")
+            display_ecg_image(case_id, view_type="single", overlay_type="clean")
+            st.info("ECG color-coded by true diagnosis. Click 'Run AI Prediction' to view AI analysis.")
+        else:
+            st.markdown("#### 🧠 AI Analysis with Grad-CAM Attribution")
+            display_ecg_image(case_id, view_type="single", overlay_type="gradcam")
+            st.success("AI prediction complete with interpretability overlay.")
 
         true_class = selected_case['true_class']
         color_class = get_diagnosis_color_class(true_class)
@@ -103,6 +123,11 @@ def main():
         if st.button("🔮 Run AI Prediction", key="predict_btn"):
             simulate_prediction_progress()
             st.success("✅ AI prediction complete for selected case.")
+            st.session_state.show_prediction = True
+            st.rerun()
+
+        # Display results if prediction done
+        if st.session_state.show_prediction:
             display_prediction_results(selected_case)
 
             st.markdown("---")
