@@ -533,3 +533,25 @@ def display_robustness_results(performance_data):
         conditions, indicating reliability for clinical deployment across different 
         ECG acquisition systems and signal qualities.
         """)
+
+
+def display_footer():
+    """Display professional footer with project links"""
+    st.markdown("""
+    <div class="cardiac-footer">
+        <h4>🔗 Project Links</h4>
+        <p>
+            <a href="https://github.com/dr-ridwanoladipo/ecg-classification-ai" style="color: white; margin: 0 10px;">📚 GitHub Repository</a> |
+            <a href="#" style="color: white; margin: 0 10px;">📊 Preprocessing Notebook</a> |
+            <a href="#" style="color: white; margin: 0 10px;">🚀 Training Notebook</a> |
+            <a href="#" style="color: white; margin: 0 10px;">📈 Evaluation Notebook</a>
+        </p>
+        <br>
+        <p>© 2025 Ridwan Oladipo, MD | Medical AI Specialist</p>
+        <p><strong>🫀 Advanced Cardiac AI Solutions</strong></p>
+        <p style="font-size: 0.9rem; opacity: 0.8;">
+            ⚠️ This AI tool is for research demonstration only and not approved for clinical diagnosis.
+            All medical decisions should be made in consultation with qualified healthcare providers.
+        </p>
+    </div>
+    """, unsafe_allow_html=True)

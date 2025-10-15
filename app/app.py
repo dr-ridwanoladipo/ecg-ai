@@ -19,7 +19,8 @@ from ecg_ui_helpers import (
     display_performance_plots,
     create_case_explorer_grid,
     get_case_summary,
-    display_robustness_results
+    display_robustness_results,
+    display_footer
 )
 
 # ================ SIDEBAR TOGGLE ================
@@ -169,6 +170,10 @@ def main():
     with tab4:
         st.markdown("## 🔬 Model Robustness Testing")
         display_robustness_results(performance_data)
+
+    # FOOTER
+    st.markdown("---")
+    display_footer()
 
 
 # ================ EXECUTION ================
