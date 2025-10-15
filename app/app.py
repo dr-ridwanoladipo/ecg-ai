@@ -12,7 +12,8 @@ from ecg_ui_helpers import (
     display_model_card,
     display_ecg_image,
     simulate_prediction_progress,
-    get_diagnosis_color_class
+    get_diagnosis_color_class,
+    display_prediction_results
 )
 
 # ================ SIDEBAR TOGGLE ================
@@ -100,6 +101,7 @@ def main():
         if st.button("🔮 Run AI Prediction", key="predict_btn"):
             simulate_prediction_progress()
             st.success("✅ AI prediction complete for selected case.")
+            display_prediction_results(selected_case)
 
 
 # ================ EXECUTION ================

@@ -338,3 +338,50 @@ def get_diagnosis_color_class(diagnosis):
         'HYP': 'diagnosis-hyp'
     }
     return color_map.get(diagnosis, 'diagnosis-norm')
+
+
+def display_prediction_results(case_data, show_differential=True):
+    """Display prediction results with clinical formatting"""
+    st.markdown(f"""
+    <div class="prediction-results">
+        <h4>🫀 Cardiac Diagnosis Results</h4>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # Primary diagnosis
+    predicted_class = case_data['predicted_class']
+    confidence = case_data['confidence']
+    color_class = get_diagnosis_color_class(predicted_class)
+
+    st.markdown(f"""
+    <div style="text-align: center; padding: 1rem;">
+        <h3>Primary Diagnosis:</h3>
+        <h2 class="{color_class}">{predicted_class}</h2>
+        <p style="font-size: 1.2rem;">Confidence: {confidence:.1%}</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    if show_differential:
+        # Differential diagnosis table
+        st.markdown("### 📊 Differential Diagnosis")
+
+        predictions_df = pd.DataFrame([
+            {'Diagnosis': diag, 'Probability': prob}
+            for diag, prob in case_data['predictions'].items()
+        ]).sort_values('Probability', ascending=False)
+
+        # Color-code the dataframe
+        def style_diagnosis(row):
+            color_class = get_diagnosis_color_class(row['Diagnosis'])
+            color_map = {
+                'diagnosis-norm': '#00AA00',
+                'diagnosis-mi': '#FF0000',
+                'diagnosis-sttc': '#0066CC',
+                'diagnosis-cd': '#8A2BE2',
+                'diagnosis-hyp': '#FF8C00'
+            }
+            color = color_map.get(color_class, '#000000')
+            return [f'color: {color}; font-weight: bold'] * len(row)
+
+        styled_df = predictions_df.style.apply(style_diagnosis, axis=1)
+        st.dataframe(styled_df, width="stretch")
