@@ -419,3 +419,25 @@ def display_clinical_note(case_data):
         <p><strong>Clinical Note:</strong> {case_data['clinical_note']}</p>
     </div>
     """, unsafe_allow_html=True)
+
+
+def display_performance_plots():
+    """Display all performance analysis plots"""
+    base_path = Path('evaluation_results')
+
+    # Performance plots
+    plots = [
+        ('calibration_curves.png', 'Model Calibration Analysis'),
+        ('roc_pr_curves.png', 'ROC and Precision-Recall Curves'),
+        ('demographic_analysis.png', 'Demographic Performance Analysis'),
+        ('robustness_test.png', 'Model Robustness Testing')
+    ]
+
+    for plot_file, title in plots:
+        plot_path = base_path / plot_file
+        if plot_path.exists():
+            st.markdown(f"### {title}")
+            st.image(str(plot_path), width="stretch")
+            st.markdown("---")
+        else:
+            st.warning(f"Plot not found: {title}")

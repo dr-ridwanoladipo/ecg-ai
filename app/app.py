@@ -15,7 +15,8 @@ from ecg_ui_helpers import (
     get_diagnosis_color_class,
     display_prediction_results,
     display_shap_analysis,
-    display_clinical_note
+    display_clinical_note,
+    display_performance_plots
 )
 
 # ================ SIDEBAR TOGGLE ================
@@ -77,6 +78,7 @@ def main():
         "🔬 Robustness Testing"
     ])
 
+    # TAB 1: ECG Prediction
     with tab1:
         st.markdown("## 🫀 AI-Powered ECG Classification")
         st.markdown("Select a patient case below to analyze their ECG with our AI model.")
@@ -93,20 +95,17 @@ def main():
         selected_case = curated_cases[selected_case_idx]
         case_id = selected_case['case_id']
 
-        # Initialize session states
         if 'show_prediction' not in st.session_state:
             st.session_state.show_prediction = False
         if 'current_case_id' not in st.session_state:
             st.session_state.current_case_id = None
 
-        # Reset when switching cases
         if st.session_state.current_case_id != case_id:
             st.session_state.show_prediction = False
             st.session_state.current_case_id = case_id
 
         st.markdown(f"### 📋 Patient {case_id} - ECG Analysis")
 
-        # Display patient ECG depending on prediction state
         if not st.session_state.show_prediction:
             st.markdown("#### 📊 Pre-Colored ECG Trace")
             display_ecg_image(case_id, view_type="single", overlay_type="clean")
@@ -126,10 +125,8 @@ def main():
             st.session_state.show_prediction = True
             st.rerun()
 
-        # Display results if prediction done
         if st.session_state.show_prediction:
             display_prediction_results(selected_case)
-
             st.markdown("---")
             col1, col2 = st.columns(2)
             with col1:
@@ -138,6 +135,12 @@ def main():
             with col2:
                 st.markdown("#### 📝 Clinical Assessment")
                 display_clinical_note(selected_case)
+
+    # TAB 2: Performance Metrics
+    with tab2:
+        st.markdown("## 📈 Model Performance Analysis")
+        st.markdown("Comprehensive evaluation results and clinical validation metrics.")
+        display_performance_plots()
 
 
 # ================ EXECUTION ================
