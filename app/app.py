@@ -18,7 +18,8 @@ from ecg_ui_helpers import (
     display_clinical_note,
     display_performance_plots,
     create_case_explorer_grid,
-    get_case_summary
+    get_case_summary,
+    display_robustness_results
 )
 
 # ================ SIDEBAR TOGGLE ================
@@ -163,6 +164,11 @@ def main():
             get_case_summary(case)
 
         create_case_explorer_grid(curated_cases)
+
+    # TAB 4: Robustness Testing
+    with tab4:
+        st.markdown("## 🔬 Model Robustness Testing")
+        display_robustness_results(performance_data)
 
 
 # ================ EXECUTION ================

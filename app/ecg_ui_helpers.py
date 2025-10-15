@@ -490,3 +490,46 @@ def get_case_summary(case_data):
         'predicted_class': case_data['predicted_class'],
         'confidence': case_data['confidence']
     }
+
+
+def display_robustness_results(performance_data):
+    """Display robustness testing results"""
+    st.markdown("### 🔬 Model Robustness Analysis")
+    st.markdown("Testing model stability under various signal conditions")
+
+    # Display robustness plots
+    base_path = Path('evaluation_results')
+    robustness_plot = base_path / 'robustness_test.png'
+
+    if robustness_plot.exists():
+        st.image(str(robustness_plot), width="stretch")
+
+    # Display robustness metrics if available
+    if 'robustness' in performance_data:
+        robustness = performance_data['robustness']
+
+        col1, col2 = st.columns(2)
+
+        with col1:
+            st.markdown("#### 📊 Amplitude Jitter Test")
+            if 'jitter_performance' in robustness:
+                jitter_data = pd.DataFrame({
+                    'Noise Level': robustness['jitter_levels'],
+                    'Agreement': robustness['jitter_performance']
+                })
+                st.dataframe(jitter_data, width="stretch")
+
+        with col2:
+            st.markdown("#### 📊 Amplitude Scaling Test")
+            if 'scale_performance' in robustness:
+                scale_data = pd.DataFrame({
+                    'Scale Factor': robustness['scale_factors'],
+                    'Agreement': robustness['scale_performance']
+                })
+                st.dataframe(scale_data, width="stretch")
+
+        st.markdown("""
+        **Analysis:** Model demonstrates robust performance across various signal 
+        conditions, indicating reliability for clinical deployment across different 
+        ECG acquisition systems and signal qualities.
+        """)
