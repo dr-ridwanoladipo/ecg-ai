@@ -206,4 +206,61 @@ def load_evaluation_data():
         return None, None, None
 
 
+def display_model_card(model_card):
+    """Display model card information in sidebar"""
+    st.sidebar.markdown("### 🏥 Model Information")
 
+    # Model basics
+    model_info = model_card['model_info']
+    st.sidebar.markdown(f"**Model:** {model_info['name']}")
+    st.sidebar.markdown(f"**Version:** {model_info['version']}")
+    st.sidebar.markdown(f"**Architecture:** {model_info['architecture']}")
+
+    # Key performance metrics
+    st.sidebar.markdown("### 📊 Key Metrics")
+    performance = model_card['performance']
+
+    mi_metrics = performance['mi_clinical_metrics']
+
+    col1, col2 = st.sidebar.columns(2)
+    with col1:
+        st.markdown(f"""
+        <div class="metric-card">
+            <div class="metric-value">{mi_metrics['sensitivity']:.1%}</div>
+            <div class="metric-label">MI Sensitivity</div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with col2:
+        st.markdown(f"""
+        <div class="metric-card">
+            <div class="metric-value">{mi_metrics['specificity']:.1%}</div>
+            <div class="metric-label">MI Specificity</div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    # Dataset info
+    st.sidebar.markdown("### 📈 Dataset")
+    dataset = model_card['dataset_info']
+    st.sidebar.markdown(f"**Dataset:** {dataset['name']}")
+    st.sidebar.markdown(f"**Test Size:** {dataset['test_size']:,} cases")
+
+    # Expandable detailed metrics
+    with st.sidebar.expander("📋 Detailed Performance"):
+        class_f1 = performance['class_f1_scores']
+        for class_name, f1_score in class_f1.items():
+            st.markdown(f"**{class_name}:** {f1_score:.3f}")
+
+        st.markdown("---")
+        st.markdown(f"**Overall Accuracy:** {performance['test_accuracy']:.3f}")
+        st.markdown(f"**Macro F1:** {performance['macro_f1']:.3f}")
+
+    # Clinical notes
+    with st.sidebar.expander("⚠️ Clinical Notes"):
+        st.markdown("""
+        **Important Disclaimers:**
+        - This AI model is for research demonstration only
+        - Not approved for clinical diagnosis
+        - All medical decisions should involve qualified healthcare providers
+        - Model performance may vary in different clinical settings
+        """)

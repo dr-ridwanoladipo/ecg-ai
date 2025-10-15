@@ -6,7 +6,7 @@ Author: Ridwan Oladipo, MD | AI Specialist
 """
 
 import streamlit as st
-from ecg_ui_helpers import load_custom_css, load_evaluation_data
+from ecg_ui_helpers import load_custom_css, load_evaluation_data, display_model_card
 
 # ================ SIDEBAR TOGGLE ================
 if 'sidebar_state' not in st.session_state:
@@ -51,7 +51,14 @@ def main():
         st.error("Failed to load evaluation data. Please ensure all data files are present.")
         return
 
-    st.success("Evaluation data loaded successfully.")
+    st.markdown("""
+    <div class="success-indicator">
+        ✅ AI Model Ready | Evaluation Data Loaded Successfully
+    </div>
+    """, unsafe_allow_html=True)
+
+    with st.sidebar:
+        display_model_card(model_card)
 
 
 # ================ EXECUTION ================
