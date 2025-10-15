@@ -60,7 +60,28 @@ def main():
     with st.sidebar:
         display_model_card(model_card)
 
-    st.markdown("### ECG Classification Interface Coming Next...")
+    tab1, tab2, tab3, tab4 = st.tabs([
+        "🫀 ECG Prediction",
+        "📈 Performance Metrics",
+        "🏥 Clinical Case Explorer",
+        "🔬 Robustness Testing"
+    ])
+
+    with tab1:
+        st.markdown("## 🫀 AI-Powered ECG Classification")
+        st.markdown("Select a patient case below to analyze their ECG with our AI model.")
+
+        st.markdown("### 👥 Patient Case Selection")
+        case_options = [f"Case {case['case_id']}: {case['description']}" for case in curated_cases]
+        selected_case_idx = st.selectbox(
+            "Choose a patient case for analysis:",
+            range(len(case_options)),
+            format_func=lambda x: case_options[x],
+            key="case_selector"
+        )
+
+        selected_case = curated_cases[selected_case_idx]
+        st.success(f"Case {selected_case['case_id']} selected for analysis.")
 
 
 # ================ EXECUTION ================
