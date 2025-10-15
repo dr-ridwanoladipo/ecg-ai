@@ -441,3 +441,52 @@ def display_performance_plots():
             st.markdown("---")
         else:
             st.warning(f"Plot not found: {title}")
+
+
+def create_case_explorer_grid(curated_cases):
+    """Create grid view of all curated cases"""
+    st.markdown("### 🔍 Clinical Case Explorer")
+    st.markdown("Overview of all 7 curated cases with ground truth vs predictions")
+
+    # Create grid layout
+    cols = st.columns(2)
+
+    for i, case in enumerate(curated_cases):
+        with cols[i % 2]:
+            # Case card
+            true_class = case['true_class']
+            predicted_class = case['predicted_class']
+            confidence = case['confidence']
+
+            # Determine if prediction is correct
+            is_correct = true_class == predicted_class
+            border_color = "#00AA00" if is_correct else "#FF0000"
+
+            st.markdown(f"""
+            <div style="border: 2px solid {border_color}; border-radius: 10px; padding: 1rem; margin: 0.5rem 0;">
+                <h4>Case {case['case_id']}: {case['description']}</h4>
+                <p><strong>True:</strong> <span class="{get_diagnosis_color_class(true_class)}">{true_class}</span></p>
+                <p><strong>Predicted:</strong> <span class="{get_diagnosis_color_class(predicted_class)}">{predicted_class}</span> ({confidence:.1%})</p>
+                <p><strong>Status:</strong> {'✅ Correct' if is_correct else '❌ Incorrect'}</p>
+            </div>
+            """, unsafe_allow_html=True)
+
+            # Thumbnail ECG
+            try:
+                base_path = Path('evaluation_results')
+                thumbnail_path = base_path / 'precolored_ecgs' / f'case_{case["case_id"]}_ecg_single_clean.png'
+                if thumbnail_path.exists():
+                    st.image(str(thumbnail_path), width=300)
+            except Exception:
+                st.write("Thumbnail not available")
+
+
+def get_case_summary(case_data):
+    """Get summary information for case selection"""
+    return {
+        'case_id': case_data['case_id'],
+        'description': case_data['description'],
+        'true_class': case_data['true_class'],
+        'predicted_class': case_data['predicted_class'],
+        'confidence': case_data['confidence']
+    }

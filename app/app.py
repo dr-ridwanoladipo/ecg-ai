@@ -16,7 +16,9 @@ from ecg_ui_helpers import (
     display_prediction_results,
     display_shap_analysis,
     display_clinical_note,
-    display_performance_plots
+    display_performance_plots,
+    create_case_explorer_grid,
+    get_case_summary
 )
 
 # ================ SIDEBAR TOGGLE ================
@@ -106,23 +108,33 @@ def main():
 
         st.markdown(f"### 📋 Patient {case_id} - ECG Analysis")
 
-        if not st.session_state.show_prediction:
-            st.markdown("#### 📊 Pre-Colored ECG Trace")
-            display_ecg_image(case_id, view_type="single", overlay_type="clean")
-            st.info("ECG color-coded by true diagnosis. Click 'Run AI Prediction' to view AI analysis.")
-        else:
-            st.markdown("#### 🧠 AI Analysis with Grad-CAM Attribution")
-            display_ecg_image(case_id, view_type="single", overlay_type="gradcam")
-            st.success("AI prediction complete with interpretability overlay.")
+        col_view, col_empty = st.columns([0.6, 0.4])
+        with col_view:
+            view_type = st.radio(
+                "ECG View:",
+                ["Lead II (Single)", "12-Lead View"],
+                horizontal=True,
+                key="view_toggle"
+            )
+        display_view = "single" if view_type == "Lead II (Single)" else "12lead"
+        overlay_type = "gradcam" if st.session_state.show_prediction else "clean"
+
+        st.markdown(f"#### 📊 ECG Display ({view_type})")
+        display_ecg_image(case_id, view_type=display_view, overlay_type=overlay_type)
 
         true_class = selected_case['true_class']
         color_class = get_diagnosis_color_class(true_class)
         st.markdown(f"**True Diagnosis:** <span class='{color_class}'>{true_class}</span>", unsafe_allow_html=True)
 
+        if not st.session_state.show_prediction:
+            st.info("Click 'Run AI Prediction' to analyze this ECG with the AI model.")
+        else:
+            st.success("AI prediction complete with Grad-CAM overlay and explainability details below.")
+
         if st.button("🔮 Run AI Prediction", key="predict_btn"):
             simulate_prediction_progress()
-            st.success("✅ AI prediction complete for selected case.")
             st.session_state.show_prediction = True
+            st.success("✅ AI prediction complete for selected case.")
             st.rerun()
 
         if st.session_state.show_prediction:
@@ -141,6 +153,16 @@ def main():
         st.markdown("## 📈 Model Performance Analysis")
         st.markdown("Comprehensive evaluation results and clinical validation metrics.")
         display_performance_plots()
+
+    # TAB 3: Clinical Case Explorer
+    with tab3:
+        st.markdown("## 🏥 Clinical Case Explorer")
+        st.markdown("Explore curated ECG cases with clinical summaries below.")
+
+        for case in curated_cases:
+            get_case_summary(case)
+
+        create_case_explorer_grid(curated_cases)
 
 
 # ================ EXECUTION ================
