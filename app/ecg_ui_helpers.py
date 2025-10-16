@@ -434,8 +434,7 @@ def display_performance_plots():
     plots = [
         ('calibration_curves.png', 'Model Calibration Analysis'),
         ('roc_pr_curves.png', 'ROC and Precision-Recall Curves'),
-        ('demographic_analysis.png', 'Demographic Performance Analysis'),
-        ('robustness_test.png', 'Model Robustness Testing')
+        ('demographic_analysis.png', 'Demographic Performance Analysis')
     ]
 
     for plot_file, title in plots:
