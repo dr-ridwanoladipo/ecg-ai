@@ -1,3 +1,6 @@
 /utility/
 venv
 .idea
+
+curated_cases/
+precolored_ecgs/
