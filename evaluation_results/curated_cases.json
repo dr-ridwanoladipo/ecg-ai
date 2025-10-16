@@ -1,0 +1,191 @@
+[
+  {
+    "case_id": 1,
+    "case_index": 4235,
+    "description": "Myocardial Infarction (MI) (100% confidence)",
+    "true_class": "Myocardial Infarction (MI)",
+    "predicted_class": "Myocardial Infarction (MI)",
+    "confidence": 0.9999998807907104,
+    "predictions": {
+      "Normal (NORM)": 3.9811492769104007e-08,
+      "Myocardial Infarction (MI)": 0.9999998807907104,
+      "ST-T Abnormality (STTC)": 0.14517159759998322,
+      "Conduction Disturbance (CD)": 0.025244683027267456,
+      "Hypertrophy (HYP)": 0.01642102189362049
+    },
+    "demographics": {
+      "age": 57.0,
+      "sex": "Female",
+      "height": 0.0,
+      "weight": 0.0,
+      "heart_rate": 72,
+      "rhythm": "Normal Sinus Rhythm"
+    },
+    "shap_importance": {
+      "age": 0.2280848591029645,
+      "sex": 0.0026680730283257237
+    },
+    "clinical_note": "Patient: 57.0y Female. ECG shows myocardial infarction (mi) pattern. Model prediction: Myocardial Infarction (MI) with 100.0% confidence."
+  },
+  {
+    "case_id": 2,
+    "case_index": 147,
+    "description": "Normal (NORM) (100% confidence)",
+    "true_class": "Normal (NORM)",
+    "predicted_class": "Normal (NORM)",
+    "confidence": 0.99972003698349,
+    "predictions": {
+      "Normal (NORM)": 0.99972003698349,
+      "Myocardial Infarction (MI)": 1.8296608459422714e-06,
+      "ST-T Abnormality (STTC)": 6.079176819184795e-05,
+      "Conduction Disturbance (CD)": 0.0008839431684464216,
+      "Hypertrophy (HYP)": 3.330319304950535e-05
+    },
+    "demographics": {
+      "age": 29.0,
+      "sex": "Male",
+      "height": 0.0,
+      "weight": 0.0,
+      "heart_rate": 69,
+      "rhythm": "Normal Sinus Rhythm"
+    },
+    "shap_importance": {},
+    "clinical_note": "Patient: 29.0y Male. ECG shows normal (norm) pattern. Model prediction: Normal (NORM) with 100.0% confidence."
+  },
+  {
+    "case_id": 3,
+    "case_index": 4380,
+    "description": "ST-T Abnormality (STTC) (99% confidence)",
+    "true_class": "ST-T Abnormality (STTC)",
+    "predicted_class": "ST-T Abnormality (STTC)",
+    "confidence": 0.9922946691513062,
+    "predictions": {
+      "Normal (NORM)": 1.1356576578691602e-05,
+      "Myocardial Infarction (MI)": 0.005209730938076973,
+      "ST-T Abnormality (STTC)": 0.9922946691513062,
+      "Conduction Disturbance (CD)": 0.01980595849454403,
+      "Hypertrophy (HYP)": 0.9241510629653931
+    },
+    "demographics": {
+      "age": 66.0,
+      "sex": "Male",
+      "height": 0.0,
+      "weight": 0.0,
+      "heart_rate": 139,
+      "rhythm": "Tachycardia"
+    },
+    "shap_importance": {
+      "age": 0.022987522482872003
+    },
+    "clinical_note": "Patient: 66.0y Male. ECG shows st-t abnormality (sttc) pattern. Model prediction: ST-T Abnormality (STTC) with 99.2% confidence."
+  },
+  {
+    "case_id": 4,
+    "case_index": 3934,
+    "description": "Conduction Disturbance (CD) (100% confidence)",
+    "true_class": "Conduction Disturbance (CD)",
+    "predicted_class": "Conduction Disturbance (CD)",
+    "confidence": 0.9990736246109009,
+    "predictions": {
+      "Normal (NORM)": 0.00016413192497566342,
+      "Myocardial Infarction (MI)": 0.01052485965192318,
+      "ST-T Abnormality (STTC)": 0.038260724395513535,
+      "Conduction Disturbance (CD)": 0.9990736246109009,
+      "Hypertrophy (HYP)": 0.4302586317062378
+    },
+    "demographics": {
+      "age": 77.0,
+      "sex": "Female",
+      "height": 0.0,
+      "weight": 0.0,
+      "heart_rate": 73,
+      "rhythm": "Normal Sinus Rhythm"
+    },
+    "shap_importance": {
+      "age": 0.23189329966902722
+    },
+    "clinical_note": "Patient: 77.0y Female. ECG shows conduction disturbance (cd) pattern. Model prediction: Conduction Disturbance (CD) with 99.9% confidence."
+  },
+  {
+    "case_id": 5,
+    "case_index": 361,
+    "description": "Hypertrophy (HYP) (100% confidence)",
+    "true_class": "Hypertrophy (HYP)",
+    "predicted_class": "Hypertrophy (HYP)",
+    "confidence": 0.997835099697113,
+    "predictions": {
+      "Normal (NORM)": 4.98058682296687e-07,
+      "Myocardial Infarction (MI)": 0.006649712100625038,
+      "ST-T Abnormality (STTC)": 0.9938133955001831,
+      "Conduction Disturbance (CD)": 0.05985048785805702,
+      "Hypertrophy (HYP)": 0.997835099697113
+    },
+    "demographics": {
+      "age": 69.0,
+      "sex": "Male",
+      "height": 0.0,
+      "weight": 0.0,
+      "heart_rate": 85,
+      "rhythm": "Normal Sinus Rhythm"
+    },
+    "shap_importance": {
+      "age": -0.004467564650694838
+    },
+    "clinical_note": "Patient: 69.0y Male. ECG shows hypertrophy (hyp) pattern. Model prediction: Hypertrophy (HYP) with 99.8% confidence."
+  },
+  {
+    "case_id": 6,
+    "case_index": 2840,
+    "description": "Myocardial Infarction (MI) (differential)",
+    "true_class": "Myocardial Infarction (MI)",
+    "predicted_class": "Myocardial Infarction (MI)",
+    "confidence": 0.9999986886978149,
+    "predictions": {
+      "Normal (NORM)": 2.709805073664029e-07,
+      "Myocardial Infarction (MI)": 0.9999986886978149,
+      "ST-T Abnormality (STTC)": 0.07743647694587708,
+      "Conduction Disturbance (CD)": 0.8808462619781494,
+      "Hypertrophy (HYP)": 0.12984105944633484
+    },
+    "demographics": {
+      "age": 78.0,
+      "sex": "Male",
+      "height": 0.0,
+      "weight": 0.0,
+      "heart_rate": 57,
+      "rhythm": "Bradycardia"
+    },
+    "shap_importance": {
+      "age": 0.2669060000777241,
+      "sex": -0.0012957948446272183
+    },
+    "clinical_note": "Patient: 78.0y Male. ECG shows myocardial infarction (mi) pattern. Model prediction: Myocardial Infarction (MI) with 100.0% confidence."
+  },
+  {
+    "case_id": 7,
+    "case_index": 60,
+    "description": "ST-T Abnormality (STTC) (differential)",
+    "true_class": "ST-T Abnormality (STTC)",
+    "predicted_class": "ST-T Abnormality (STTC)",
+    "confidence": 0.9113480448722839,
+    "predictions": {
+      "Normal (NORM)": 0.002170407213270664,
+      "Myocardial Infarction (MI)": 0.023604806512594223,
+      "ST-T Abnormality (STTC)": 0.9113480448722839,
+      "Conduction Disturbance (CD)": 0.15583272278308868,
+      "Hypertrophy (HYP)": 0.7851404547691345
+    },
+    "demographics": {
+      "age": 82.0,
+      "sex": "Female",
+      "height": 0.0,
+      "weight": 0.0,
+      "heart_rate": 71,
+      "rhythm": "Normal Sinus Rhythm"
+    },
+    "shap_importance": {
+      "age": 0.0341470313072208
+    },
+    "clinical_note": "Patient: 82.0y Female. ECG shows st-t abnormality (sttc) pattern. Model prediction: ST-T Abnormality (STTC) with 91.1% confidence."
+  }
+]
