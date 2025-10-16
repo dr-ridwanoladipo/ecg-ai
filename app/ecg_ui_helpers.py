@@ -147,37 +147,37 @@ def load_custom_css():
         border-radius: 8px;
     }
 
-    /* Footer styling */
-    .cardiac-footer {
-        background: #1f2937;
-        color: white;
-        padding: 2rem;
-        border-radius: 15px;
-        text-align: center;
-        margin-top: 3rem;
+/* ----------------------------------------*/
+
+    /* Adjust st.metric font sizes */
+    div[class*="stMetric"] label, div[class*="stMetric"] span {
+        font-size: 1rem !important;
+        color: #6b7280 !important;
     }
 
-    /* Color-coded diagnosis text */
-    .diagnosis-norm { color: #00AA00; font-weight: bold; }
-    .diagnosis-mi { color: #FF0000; font-weight: bold; }
-    .diagnosis-sttc { color: #0066CC; font-weight: bold; }
-    .diagnosis-cd { color: #8A2BE2; font-weight: bold; }
-    .diagnosis-hyp { color: #FF8C00; font-weight: bold; }
-
-    /* Performance grid */
-    .performance-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 1rem;
-        margin: 1rem 0;
+    div[class*="stMetric"] div[data-testid*="stMetricValue"] {
+        font-size: 1.7rem !important;
+        font-weight: 600 !important;
     }
 
-    .performance-item {
-        background: white;
-        padding: 1rem;
-        border-radius: 10px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    @media (max-width: 768px) {
+        h3, h4 {
+            text-align: center;
+        }
     }
+
+    /* Fine-tune spacing inside the differential diagnosis dataframe */
+    [data-testid="stDataFrame"] table td,
+    [data-testid="stDataFrame"] table th {
+        padding-left: 0.4rem !important;
+        padding-right: 0.4rem !important;
+    }
+
+    [data-testid="stDataFrame"] table {
+        border-collapse: collapse !important;
+        width: 60% !important;
+        margin: auto !important;
+    }    
     </style>
     """, unsafe_allow_html=True)
 
@@ -271,19 +271,29 @@ def display_ecg_image(case_id, view_type="single", overlay_type="clean"):
     try:
         base_path = Path('evaluation_results')
 
+        # Determine which image to load
         if overlay_type == "clean":
             # Pre-colored ECG
-            if view_type == "single":
-                img_path = base_path / 'precolored_ecgs' / f'case_{case_id}_ecg_single_clean.png'
-            else:
-                img_path = base_path / 'precolored_ecgs' / f'case_{case_id}_ecg_12lead_clean.png'
-        else:
-            # Grad-CAM overlay
-            if view_type == "single":
-                img_path = base_path / 'curated_cases' / f'case_{case_id}_gradcam_single.png'
-            else:
-                img_path = base_path / 'curated_cases' / f'case_{case_id}_gradcam_12lead.png'
+            subfolder = 'precolored_ecgs'
+            filename = f'case_{case_id}_ecg_single_clean.png' if view_type == "single" else f'case_{case_id}_ecg_12lead_clean.png'
 
+        elif overlay_type == "gradcam":
+            # Grad-CAM overlay only
+            subfolder = 'curated_cases'
+            filename = f'case_{case_id}_gradcam_single.png' if view_type == "single" else f'case_{case_id}_gradcam_12lead.png'
+
+        elif overlay_type == "gradcam_comparison":
+            # Stacked comparison (original + Grad-CAM)
+            subfolder = 'curated_cases'
+            filename = f'case_{case_id}_gradcam_comparison.png'
+
+        else:
+            st.warning("Invalid overlay type specified.")
+            return
+
+        img_path = base_path / subfolder / filename
+
+        # Display image
         if img_path.exists():
             st.image(str(img_path), width="stretch")
         else:
@@ -294,7 +304,7 @@ def display_ecg_image(case_id, view_type="single", overlay_type="clean"):
 
 
 def simulate_prediction_progress():
-    """Simulate AI prediction progress with cardiac focus"""
+    """Simulate AI prediction progress"""
     progress_text = st.empty()
     progress_bar = st.progress(0)
 
@@ -342,11 +352,6 @@ def get_diagnosis_color_class(diagnosis):
 
 def display_prediction_results(case_data, show_differential=True):
     """Display prediction results with clinical formatting"""
-    st.markdown(f"""
-    <div class="prediction-results">
-        <h4>🫀 Cardiac Diagnosis Results</h4>
-    </div>
-    """, unsafe_allow_html=True)
 
     # Primary diagnosis
     predicted_class = case_data['predicted_class']
@@ -363,7 +368,7 @@ def display_prediction_results(case_data, show_differential=True):
 
     if show_differential:
         # Differential diagnosis table
-        st.markdown("### 📊 Differential Diagnosis")
+        st.markdown("### Differential Diagnosis")
 
         predictions_df = pd.DataFrame([
             {'Diagnosis': diag, 'Probability': prob}
@@ -408,7 +413,7 @@ def display_clinical_note(case_data):
 
     st.markdown(f"""
     <div class="clinical-note">
-        <h4>📋 Clinical Assessment</h4>
+        <h4>Clinical Assessment</h4>
         <p><strong>Patient Demographics:</strong></p>
         <ul>
             <li>Age: {demographics['age']:.0f} years</li>
@@ -536,16 +541,55 @@ def display_robustness_results(performance_data):
 
 
 def display_footer():
-    """Display professional footer with project links"""
+    """Display professional responsive footer for ECG AI"""
     st.markdown("""
+    <style>
+    .footer-links {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px;
+        margin-top: 10px;
+    }
+
+    .footer-links a {
+        color: #93c5fd;
+        text-decoration: none;
+        margin: 4px 8px;
+        font-weight: 500;
+        transition: color 0.2s ease;
+    }
+
+    .footer-links a:hover {
+        color: #bfdbfe;
+    }
+
+    .cardiac-footer {
+        background: #1f2937;
+        color: white;
+        padding: 2rem;
+        border-radius: 15px;
+        text-align: center;
+        margin-top: 3rem;
+    }
+
+    @media (max-width: 768px) {
+        .footer-links {
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+    }
+    </style>
+
     <div class="cardiac-footer">
-        <h4>🔗 Project Links</h4>
-        <p>
-            <a href="https://github.com/dr-ridwanoladipo/ecg-classification-ai" style="color: white; margin: 0 10px;">📚 GitHub Repository</a> |
-            <a href="#" style="color: white; margin: 0 10px;">📊 Preprocessing Notebook</a> |
-            <a href="#" style="color: white; margin: 0 10px;">🚀 Training Notebook</a> |
-            <a href="#" style="color: white; margin: 0 10px;">📈 Evaluation Notebook</a>
-        </p>
+        <h4>📎 Project Links</h4>
+        <div class="footer-links">
+            <a href="https://github.com/dr-ridwanoladipo/ecg-ai">💻 GitHub Repository</a>
+            <a href="https://www.kaggle.com/code/ridwanoladipoai/ecg-ai-preprocessing">📊 Preprocessing Notebook</a>
+            <a href="https://www.kaggle.com/code/ridwanoladipoai/ecg-ai-training">🚀 Training Notebook</a>
+            <a href="https://www.kaggle.com/code/ridwanoladipoai/ecg-ai-evaluation">📈 Evaluation Notebook</a>
+        </div>
         <br>
         <p>© 2025 Ridwan Oladipo, MD | Medical AI Specialist</p>
         <p><strong>🫀 Advanced Cardiac AI Solutions</strong></p>

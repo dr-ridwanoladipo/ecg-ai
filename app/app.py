@@ -11,7 +11,7 @@ import pandas as pd
 import time
 from ecg_ui_helpers import *
 
-# ================ 🛠 SIDEBAR TOGGLE ================
+# Sidebar Toggle
 if 'sidebar_state' not in st.session_state:
     st.session_state.sidebar_state = 'expanded'
 
@@ -41,8 +41,8 @@ def main():
     # Header
     st.markdown("""
     <div class="cardiac-header">
-        <h1>🫀 ECG Classification AI</h1>
-        <p>AI-powered cardiac arrhythmia analysis with clinical precision</p>
+        <h1>🫀 ECG Diagnosis AI</h1>
+        <p>AI-assisted interpretation of cardiac electrical activity</p>
         <p><strong>By Ridwan Oladipo, MD | AI Specialist</strong></p>
     </div>
     """, unsafe_allow_html=True)
@@ -76,113 +76,110 @@ def main():
 
     # TAB 1: ECG Prediction
     with tab1:
+        st.markdown("")
         st.markdown("## 🫀 AI-Powered ECG Classification")
-        st.markdown("Select a patient case below to analyze their ECG with our AI model.")
 
-        # Case selection dropdown
-        st.markdown("### 👥 Patient Case Selection")
-
+        # Case Selection
+        st.markdown("")
         case_options = [f"Case {case['case_id']}: {case['description']}" for case in curated_cases]
         selected_case_idx = st.selectbox(
-            "Choose a patient case for analysis:",
+            "Select a patient case below to analyze their ECG with our AI model:",
             range(len(case_options)),
             format_func=lambda x: case_options[x],
             key="case_selector"
         )
 
+        st.markdown("")
         selected_case = curated_cases[selected_case_idx]
         case_id = selected_case['case_id']
 
-        # Initialize prediction state
+        # Session State
         if 'show_prediction' not in st.session_state:
             st.session_state.show_prediction = False
         if 'current_case_id' not in st.session_state:
             st.session_state.current_case_id = None
 
-        # Reset prediction state when switching cases
+        # Reset prediction when switching case
         if st.session_state.current_case_id != case_id:
             st.session_state.show_prediction = False
             st.session_state.current_case_id = case_id
 
-        st.markdown(f"### 📋 Patient {case_id} - ECG Analysis")
+        # Demographics
+        if not st.session_state.show_prediction:
+            demographics = selected_case['demographics']
+            col1, col2, col3, col4 = st.columns(4)
+            with col1:
+                st.metric("Age", f"{demographics['age']:.0f} years")
+            with col2:
+                st.metric("Sex", demographics['sex'])
+            with col3:
+                st.metric("Heart Rate", f"{demographics.get('heart_rate', 'N/A')} bpm")
+            with col4:
+                st.metric("Rhythm", demographics.get('rhythm', 'N/A'))
 
-        # Display patient demographics
-        demographics = selected_case['demographics']
-        col1, col2, col3, col4 = st.columns(4)
-        with col1:
-            st.metric("Age", f"{demographics['age']:.0f} years")
-        with col2:
-            st.metric("Sex", demographics['sex'])
-        with col3:
-            st.metric("Heart Rate", f"{demographics.get('heart_rate', 'N/A')} bpm")
-        with col4:
-            st.metric("Rhythm", demographics.get('rhythm', 'N/A'))
+        # ECG Display
+        st.markdown('<div class="ecg-viewer">', unsafe_allow_html=True)
 
-        # ECG display controls
-        col1, col2 = st.columns([3, 2])
+        view_type = st.radio(
+            "ECG View:",
+            ["Lead II (Single)", "12-Lead View"],
+            horizontal=True,
+            key="view_toggle"
+        )
 
-        with col1:
-            st.markdown('<div class="ecg-viewer">', unsafe_allow_html=True)
+        display_view = "single" if view_type == "Lead II (Single)" else "12lead"
 
-            # View toggle
-            view_type = st.radio(
-                "ECG View:",
-                ["Lead II (Single)", "12-Lead View"],
-                horizontal=True,
-                key="view_toggle"
+        # Before prediction
+        if not st.session_state.show_prediction:
+            st.markdown("#### Pre-Colored ECG Trace")
+            st.info("ECG color-coded by true diagnosis. Click **Run AI Prediction** below to analyze.")
+            overlay_type = "clean"
+
+        # After prediction
+        else:
+            st.markdown("---")
+            st.markdown("#### 🧠 AI Cardiac Analysis (Grad-CAM + Prediction)")
+            st.info("Interpretability-enhanced AI diagnosis based on 12-lead ECG.")
+            st.markdown("")
+
+            # Show original ECG checkbox
+            show_original = st.checkbox(
+                "Show original ECG for comparison",
+                value=False,
+                key="show_original_toggle",
+                help="Toggle to view the pre-colored ECG instead of Grad-CAM overlay."
             )
 
-            # Determine display parameters
-            display_view = "single" if view_type == "Lead II (Single)" else "12lead"
-            overlay_type = "gradcam" if st.session_state.show_prediction else "clean"
+            overlay_type = "clean" if show_original else "gradcam"
 
-            # Display ECG
-            if not st.session_state.show_prediction:
-                st.markdown("#### 📊 Pre-Colored ECG Trace")
-                st.info("ECG color-coded by true diagnosis. Click 'Run AI Prediction' to see model analysis.")
-            else:
-                st.markdown("#### 🧠 AI Analysis with Grad-CAM Attribution")
-                st.success("AI prediction complete with interpretability overlay.")
+        # Display ECG image
+        display_ecg_image(case_id, display_view, overlay_type)
+        st.markdown('</div>', unsafe_allow_html=True)
 
-            display_ecg_image(case_id, display_view, overlay_type)
-            st.markdown('</div>', unsafe_allow_html=True)
-
-        with col2:
-            st.markdown("#### 🎯 AI Analysis Controls")
-
-            # Case information
-            true_class = selected_case['true_class']
-            color_class = get_diagnosis_color_class(true_class)
-
-            st.markdown(f"**True Diagnosis:** <span class='{color_class}'>{true_class}</span>",
-                        unsafe_allow_html=True)
-
+        # Prediction Trigger
+        if not st.session_state.show_prediction:
             st.markdown("---")
-
-            # Prediction button
             if st.button("🔮 **Run AI Prediction**", key="predict_btn", use_container_width=True):
                 simulate_prediction_progress()
                 st.success("✅ AI Prediction Complete!")
                 st.session_state.show_prediction = True
                 st.rerun()
 
-            # Show prediction results
-            if st.session_state.show_prediction:
-                st.markdown("#### 📊 Prediction Results")
-                display_prediction_results(selected_case)
-
-        # Post-prediction analysis
+        # Post-Prediction Report
         if st.session_state.show_prediction:
             st.markdown("---")
 
+            # Primary + Differential
+            display_prediction_results(selected_case)
+
+            # Explainability + Clinical note
+            st.markdown("---")
             col1, col2 = st.columns(2)
-
             with col1:
-                st.markdown("#### 🧠 SHAP Demographics Analysis")
+                st.markdown("#### 🧩 SHAP Demographic Attribution")
                 display_shap_analysis(case_id)
-
             with col2:
-                st.markdown("#### 📝 Clinical Assessment")
+                st.markdown("#### 🩺 Clinical Assessment")
                 display_clinical_note(selected_case)
 
     # TAB 2: Performance Metrics
