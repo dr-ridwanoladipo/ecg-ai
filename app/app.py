@@ -159,7 +159,7 @@ def main():
         # Prediction Trigger
         if not st.session_state.show_prediction:
             st.markdown("---")
-            if st.button("🔮 **Run AI Prediction**", key="predict_btn", use_container_width=True):
+            if st.button(" **Run AI Prediction**", key="predict_btn", use_container_width=True):
                 simulate_prediction_progress()
                 st.success("✅ AI Prediction Complete!")
                 st.session_state.show_prediction = True
@@ -184,7 +184,8 @@ def main():
 
     # TAB 2: Performance Metrics
     with tab2:
-        st.markdown("## 📈 Model Performance Analysis")
+        st.markdown("")
+        st.markdown("## Model Performance Analysis")
         st.markdown("Comprehensive evaluation results and clinical validation metrics")
 
         # Key metrics summary
@@ -232,12 +233,14 @@ def main():
 
     # TAB 3: Clinical Case Explorer
     with tab3:
-        st.markdown("## 🏥 Clinical Case Explorer")
+        st.markdown("")
+        st.markdown("## Clinical Case Explorer")
         create_case_explorer_grid(curated_cases)
 
     # TAB 4: Robustness Testing
     with tab4:
-        st.markdown("## 🔬 Model Robustness Testing")
+        st.markdown("")
+        st.markdown("## Model Robustness Testing")
         display_robustness_results(performance_data)
 
     # Footer

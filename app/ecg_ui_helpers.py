@@ -149,6 +149,22 @@ def load_custom_css():
 
 /* ----------------------------------------*/
 
+    /* Custom styling for the Run AI Prediction button */
+    div.stButton > button[kind="secondary"] {
+        background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+        color: white;
+        font-weight: 600;
+        border-radius: 8px;
+        border: none;
+        padding: 0.6rem 1.2rem;
+        transition: all 0.2s ease;
+    }
+    
+    div.stButton > button[kind="secondary"]:hover {
+        background: linear-gradient(135deg, #b91c1c 0%, #7f1d1d 100%);
+        transform: scale(1.02);
+    }
+
     /* Adjust st.metric font sizes */
     div[class*="stMetric"] label, div[class*="stMetric"] span {
         font-size: 1rem !important;
@@ -449,7 +465,6 @@ def display_performance_plots():
 
 def create_case_explorer_grid(curated_cases):
     """Create grid view of all curated cases"""
-    st.markdown("### 🔍 Clinical Case Explorer")
     st.markdown("Overview of all 7 curated cases with ground truth vs predictions")
 
     # Create grid layout
@@ -498,7 +513,6 @@ def get_case_summary(case_data):
 
 def display_robustness_results(performance_data):
     """Display robustness testing results"""
-    st.markdown("### 🔬 Model Robustness Analysis")
     st.markdown("Testing model stability under various signal conditions")
 
     # Display robustness plots
@@ -515,7 +529,7 @@ def display_robustness_results(performance_data):
         col1, col2 = st.columns(2)
 
         with col1:
-            st.markdown("#### 📊 Amplitude Jitter Test")
+            st.markdown("#### Amplitude Jitter Test")
             if 'jitter_performance' in robustness:
                 jitter_data = pd.DataFrame({
                     'Noise Level': robustness['jitter_levels'],
@@ -524,7 +538,7 @@ def display_robustness_results(performance_data):
                 st.dataframe(jitter_data, width="stretch")
 
         with col2:
-            st.markdown("#### 📊 Amplitude Scaling Test")
+            st.markdown("#### Amplitude Scaling Test")
             if 'scale_performance' in robustness:
                 scale_data = pd.DataFrame({
                     'Scale Factor': robustness['scale_factors'],
