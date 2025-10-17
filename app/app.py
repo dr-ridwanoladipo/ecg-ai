@@ -167,7 +167,7 @@ def main():
 
         # Post-Prediction Report
         if st.session_state.show_prediction:
-            st.markdown("---")
+            st.markdown("")
 
             # Primary + Differential
             display_prediction_results(selected_case)

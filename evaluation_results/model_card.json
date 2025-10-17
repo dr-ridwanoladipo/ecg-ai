@@ -32,7 +32,8 @@
       "sensitivity": 0.9617137648131268,
       "specificity": 0.9996968778417702,
       "ppv": 0.9990530303030303,
-      "npv": 0.9874251497005988
+      "npv": 0.9874251497005988,
+       "auc": 0.9986
     }
   },
   "calibration": {
@@ -226,7 +227,10 @@
   },
   "dataset_info": {
     "name": "PTB-XL",
+    "total_size": 22000,
     "test_size": 4396,
+    "patients": 19000,
+    "source": "PhysioNet",
     "class_distribution": {
       "NORM": 1921,
       "MI": 1097,

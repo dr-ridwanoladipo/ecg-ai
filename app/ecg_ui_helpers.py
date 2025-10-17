@@ -63,8 +63,8 @@ def load_custom_css():
     /* Metric cards */
     .metric-card {
         background: white;
-        border-radius: 12px;
-        padding: 1.5rem;
+        border-radius: 10px;
+        padding: 0.8rem 0.6rem;
         text-align: center;
         box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
         border: 1px solid #e5e7eb;
@@ -72,7 +72,7 @@ def load_custom_css():
     }
 
     .metric-value {
-        font-size: 2rem;
+        font-size: 1.5rem;
         font-weight: 700;
         color: #1f2937;
     }
@@ -229,13 +229,12 @@ def display_model_card(model_card):
     # Model basics
     model_info = model_card['model_info']
     st.sidebar.markdown(f"**Model:** {model_info['name']}")
-    st.sidebar.markdown(f"**Version:** {model_info['version']}")
     st.sidebar.markdown(f"**Architecture:** {model_info['architecture']}")
 
     # Key performance metrics
+    st.markdown("---")
     st.sidebar.markdown("### 📊 Key Metrics")
     performance = model_card['performance']
-
     mi_metrics = performance['mi_clinical_metrics']
 
     col1, col2 = st.sidebar.columns(2)
@@ -255,23 +254,35 @@ def display_model_card(model_card):
         </div>
         """, unsafe_allow_html=True)
 
+    col3, col4 = st.sidebar.columns(2)
+    with col3:
+        st.markdown(f"""
+        <div class="metric-card">
+            <div class="metric-value">{mi_metrics['auc']:.3f}</div>
+            <div class="metric-label">MI AUC</div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with col4:
+        st.markdown(f"""
+        <div class="metric-card">
+            <div class="metric-value">{performance['macro_f1']:.3f}</div>
+            <div class="metric-label">Macro F1</div>
+        </div>
+        """, unsafe_allow_html=True)
+
     # Dataset info
+    st.markdown("---")
     st.sidebar.markdown("### 📈 Dataset")
     dataset = model_card['dataset_info']
-    st.sidebar.markdown(f"**Dataset:** {dataset['name']}")
-    st.sidebar.markdown(f"**Test Size:** {dataset['test_size']:,} cases")
-
-    # Expandable detailed metrics
-    with st.sidebar.expander("📋 Detailed Performance"):
-        class_f1 = performance['class_f1_scores']
-        for class_name, f1_score in class_f1.items():
-            st.markdown(f"**{class_name}:** {f1_score:.3f}")
-
-        st.markdown("---")
-        st.markdown(f"**Overall Accuracy:** {performance['test_accuracy']:.3f}")
-        st.markdown(f"**Macro F1:** {performance['macro_f1']:.3f}")
+    st.sidebar.markdown(f"""
+    **Dataset:** {dataset['name']} ({dataset['source']})  
+    **Cohort:** {dataset['patients']:,} patients | {dataset['total_size']:,} ECG records  
+    **Test Size:** {dataset['test_size']:,} cases
+    """)
 
     # Clinical notes
+    st.markdown("---")
     with st.sidebar.expander("⚠️ Clinical Notes"):
         st.markdown("""
         **Important Disclaimers:**
