@@ -11,26 +11,12 @@ import pandas as pd
 import time
 from ecg_ui_helpers import *
 
-# Sidebar Toggle
-if 'sidebar_state' not in st.session_state:
-    st.session_state.sidebar_state = 'expanded'
 
 st.set_page_config(
     page_title="ECG Classification AI",
     page_icon="🫀",
     layout="wide",
-    initial_sidebar_state=st.session_state.sidebar_state
-)
-
-if st.button("🫀", help="Toggle sidebar"):
-    st.session_state.sidebar_state = (
-        'collapsed' if st.session_state.sidebar_state == 'expanded' else 'expanded'
-    )
-    st.rerun()
-
-st.markdown(
-    '<div style="font-size:0.75rem; color:#6b7280; margin-top:-10px;">Menu</div>',
-    unsafe_allow_html=True
+    initial_sidebar_state="expanded"
 )
 
 
@@ -179,7 +165,7 @@ def main():
                 st.markdown("#### 🧩 SHAP Demographic Attribution")
                 display_shap_analysis(case_id)
             with col2:
-                st.markdown("#### 🩺 Clinical Assessment")
+                st.markdown("")
                 display_clinical_note(selected_case)
 
     # TAB 2: Performance Metrics

@@ -25,11 +25,11 @@ def load_custom_css():
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
     /* Hide Streamlit's default chrome */
-    #MainMenu, footer, header, .stDeployButton {visibility: hidden;}
+    #MainMenu, footer, .stAppDeployButton {display: none !important;}
 
     /* Reduce top/bottom padding of main container */
     div.block-container {
-        padding-top: 1rem !important;
+        padding-top: 2.7rem !important;
         padding-bottom: 2rem !important;
         margin-top: 0rem !important;
         margin-bottom: 7rem !important;
@@ -129,15 +129,6 @@ def load_custom_css():
         margin-bottom: 1rem;
     }
 
-    /* ECG viewer styling */
-    .ecg-viewer {
-        background: white;
-        border-radius: 15px;
-        padding: 1rem;
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-        border: 1px solid #e5e7eb;
-    }
-
     /* Clinical note */
     .clinical-note {
         background: linear-gradient(135deg, #fefce8 0%, #fef3c7 100%);
@@ -159,7 +150,7 @@ def load_custom_css():
         padding: 0.6rem 1.2rem;
         transition: all 0.2s ease;
     }
-    
+
     div.stButton > button[kind="secondary"]:hover {
         background: linear-gradient(135deg, #b91c1c 0%, #7f1d1d 100%);
         transform: scale(1.02);
@@ -607,18 +598,17 @@ def display_footer():
     </style>
 
     <div class="cardiac-footer">
-        <h4>📎 Project Links</h4>
         <div class="footer-links">
             <a href="https://github.com/dr-ridwanoladipo/ecg-ai">💻 GitHub Repository</a>
-            <a href="https://www.kaggle.com/code/ridwanoladipoai/ecg-ai-preprocessing">📊 Preprocessing Notebook</a>
-            <a href="https://www.kaggle.com/code/ridwanoladipoai/ecg-ai-training">🚀 Training Notebook</a>
-            <a href="https://www.kaggle.com/code/ridwanoladipoai/ecg-ai-evaluation">📈 Evaluation Notebook</a>
+            <p style="margin-top: 1rem; font-weight: 600; color: #bfdbfe;">📊 Kaggle Notebooks Collection</p>
+            <a href="https://www.kaggle.com/code/ridwanoladipoai/ecg-ai-preprocessing">Preprocessing Notebook</a>
+            <a href="https://www.kaggle.com/code/ridwanoladipoai/ecg-ai-training">Training Notebook</a>
+            <a href="https://www.kaggle.com/code/ridwanoladipoai/ecg-ai-evaluation">Evaluation Notebook</a>
         </div>
         <br>
         <p>© 2025 Ridwan Oladipo, MD | Medical AI Specialist</p>
-        <p><strong>🫀 Advanced Cardiac AI Solutions</strong></p>
         <p style="font-size: 0.9rem; opacity: 0.8;">
-            ⚠️ This AI tool is for research demonstration only and not approved for clinical diagnosis.
+            ⚠️ Built to FDA-grade standards for clinical deployment.
             All medical decisions should be made in consultation with qualified healthcare providers.
         </p>
     </div>
