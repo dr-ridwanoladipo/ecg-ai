@@ -283,7 +283,7 @@ def display_model_card(model_card):
     st.sidebar.markdown(f"""
     **Dataset:** {dataset['name']} ({dataset['source']})  
     **Cohort:** {dataset['patients']:,} patients | {dataset['total_size']:,} ECG records  
-    **Test Size:** {dataset['test_size']:,} cases
+    **Validation/Test:** {dataset['test_size']:,} cases
     """)
 
     # Clinical notes
