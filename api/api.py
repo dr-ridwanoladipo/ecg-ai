@@ -78,6 +78,7 @@ async def startup_event():
 async def shutdown_event():
     logger.info("Shutting down ECG Classification API...")
 
+# ──────────────────────────────── Core Info ─────────────────────────────────────
 @app.get("/", summary="ECG Diagnosis API Overview", tags=["App Info"])
 async def root():
     return {
@@ -98,6 +99,7 @@ async def health_check():
         "timestamp": current_time_iso(),
     }
 
+# ──────────────────────────────── Case Endpoints ────────────────────────────────
 @app.get("/cases", summary="Get All Curated Cases", tags=["Cases"])
 @limiter.limit("10/minute")
 async def get_cases(request: Request):
@@ -105,8 +107,7 @@ async def get_cases(request: Request):
         raise HTTPException(status.HTTP_503_SERVICE_UNAVAILABLE, detail="Data service not loaded")
     try:
         logger.info("Cases list requested")
-        cases = data_service.get_demo_cases()
-        return cases
+        return data_service.get_demo_cases()
     except Exception as e:
         logger.error(f"Error getting cases: {e}")
         raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to retrieve cases")
@@ -145,6 +146,7 @@ async def get_case_prediction(request: Request, case_id: int):
         logger.error(f"Error getting prediction: {e}")
         raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to retrieve prediction")
 
+# ─────────────────────────────── Clinical Reports ───────────────────────────────
 @app.get("/clinical-report/{case_id}", summary="Get Clinical Report", tags=["Clinical"])
 @limiter.limit("10/minute")
 async def get_clinical_report(request: Request, case_id: int):
@@ -179,6 +181,78 @@ async def generate_clinical_report(request: Request, case_id: int):
         logger.error(f"Error generating clinical report: {e}")
         raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to generate clinical report")
 
+# ─────────────────────────────── Performance & Analysis ─────────────────────────
+@app.get("/metrics-summary", summary="Get Model Performance Summary", tags=["Performance"])
+@limiter.limit("10/minute")
+async def get_metrics_summary(request: Request):
+    if not data_loaded:
+        raise HTTPException(status.HTTP_503_SERVICE_UNAVAILABLE, detail="Data service not loaded")
+    try:
+        logger.info("Metrics summary requested")
+        return data_service.get_metrics_summary()
+    except Exception as e:
+        logger.error(f"Error getting metrics summary: {e}")
+        raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to retrieve metrics summary")
+
+@app.get("/robustness-summary", summary="Get Robustness Analysis", tags=["Performance"])
+@limiter.limit("10/minute")
+async def get_robustness_summary(request: Request):
+    if not data_loaded:
+        raise HTTPException(status.HTTP_503_SERVICE_UNAVAILABLE, detail="Data service not loaded")
+    try:
+        logger.info("Robustness summary requested")
+        return data_service.get_robustness_summary()
+    except Exception as e:
+        logger.error(f"Error getting robustness summary: {e}")
+        raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to retrieve robustness summary")
+
+@app.get("/calibration", summary="Get Calibration Data", tags=["Performance"])
+@limiter.limit("10/minute")
+async def get_calibration_data(request: Request):
+    if not data_loaded:
+        raise HTTPException(status.HTTP_503_SERVICE_UNAVAILABLE, detail="Data service not loaded")
+    try:
+        logger.info("Calibration data requested")
+        calibration = data_service.get_calibration_data()
+        if not calibration:
+            raise HTTPException(status.HTTP_404_NOT_FOUND, detail="Calibration data not found")
+        return calibration
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error getting calibration data: {e}")
+        raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to retrieve calibration data")
+
+@app.get("/roc-pr-curves", summary="Get ROC and PR Curve Data", tags=["Performance"])
+@limiter.limit("10/minute")
+async def get_roc_pr_curves(request: Request):
+    if not data_loaded:
+        raise HTTPException(status.HTTP_503_SERVICE_UNAVAILABLE, detail="Data service not loaded")
+    try:
+        logger.info("ROC/PR curves requested")
+        return data_service.get_roc_pr_data()
+    except Exception as e:
+        logger.error(f"Error getting ROC/PR curves: {e}")
+        raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to retrieve curve data")
+
+@app.get("/demographic-analysis", summary="Get Demographic Performance Analysis", tags=["Performance"])
+@limiter.limit("10/minute")
+async def get_demographic_analysis(request: Request):
+    if not data_loaded:
+        raise HTTPException(status.HTTP_503_SERVICE_UNAVAILABLE, detail="Data service not loaded")
+    try:
+        logger.info("Demographic analysis requested")
+        demographics = data_service.get_demographic_analysis()
+        if not demographics:
+            raise HTTPException(status.HTTP_404_NOT_FOUND, detail="Demographic analysis not found")
+        return demographics
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error getting demographic analysis: {e}")
+        raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to retrieve demographic analysis")
+
+# ─────────────────────────────── Exception Handlers ─────────────────────────────
 @app.exception_handler(ValueError)
 async def value_error_handler(request, exc):
     logger.error(f"Validation error: {exc}")
