@@ -4,3 +4,6 @@ venv
 
 curated_cases/
 precolored_ecgs/
+/ecg_api.log
+/api_test_results.http
+/ecg_api_collection.json
