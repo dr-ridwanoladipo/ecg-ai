@@ -128,6 +128,57 @@ async def get_case_details(request: Request, case_id: int):
         logger.error(f"Error getting case details: {e}")
         raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to retrieve case details")
 
+@app.get("/case/{case_id}/prediction", summary="Get Case Prediction", tags=["Cases"])
+@limiter.limit("10/minute")
+async def get_case_prediction(request: Request, case_id: int):
+    if not data_loaded:
+        raise HTTPException(status.HTTP_503_SERVICE_UNAVAILABLE, detail="Data service not loaded")
+    try:
+        logger.info(f"Prediction requested: {case_id}")
+        prediction = data_service.get_case_prediction(case_id)
+        if not prediction:
+            raise HTTPException(status.HTTP_404_NOT_FOUND, detail=f"Prediction for case {case_id} not found")
+        return prediction
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error getting prediction: {e}")
+        raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to retrieve prediction")
+
+@app.get("/clinical-report/{case_id}", summary="Get Clinical Report", tags=["Clinical"])
+@limiter.limit("10/minute")
+async def get_clinical_report(request: Request, case_id: int):
+    if not data_loaded:
+        raise HTTPException(status.HTTP_503_SERVICE_UNAVAILABLE, detail="Data service not loaded")
+    try:
+        logger.info(f"Clinical report requested: {case_id}")
+        report = data_service.get_clinical_report(case_id)
+        if not report:
+            raise HTTPException(status.HTTP_404_NOT_FOUND, detail=f"Clinical report for case {case_id} not found")
+        return report
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error getting clinical report: {e}")
+        raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to retrieve clinical report")
+
+@app.post("/generate-report/{case_id}", summary="Generate Clinical Report", tags=["Clinical"])
+@limiter.limit("5/minute")
+async def generate_clinical_report(request: Request, case_id: int):
+    if not data_loaded:
+        raise HTTPException(status.HTTP_503_SERVICE_UNAVAILABLE, detail="Data service not loaded")
+    try:
+        logger.info(f"Report generation requested: {case_id}")
+        report = data_service.generate_clinical_report(case_id)
+        if not report:
+            raise HTTPException(status.HTTP_404_NOT_FOUND, detail=f"Cannot generate report for case {case_id}")
+        return report
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error generating clinical report: {e}")
+        raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to generate clinical report")
+
 @app.exception_handler(ValueError)
 async def value_error_handler(request, exc):
     logger.error(f"Validation error: {exc}")
