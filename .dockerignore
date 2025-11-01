@@ -1,0 +1,19 @@
+# ── Version control ───────────────────────────────
+.git
+.gitignore
+
+# ── Documentation ─────────────────────────────────
+README.md
+LICENSE
+
+# ── CI/CD configuration ───────────────────────────
+.github/
+task-definition.json
+
+# ── Development artifacts ─────────────────────────
+notebooks/
+utility/
+
+# ── Backend / Non-UI code ──────────
+api/
+requirements.txt
