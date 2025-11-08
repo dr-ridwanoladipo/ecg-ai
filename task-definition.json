@@ -1,0 +1,50 @@
+{
+  "family": "ecg-ai-task",
+  "requiresCompatibilities": ["FARGATE"],
+  "networkMode": "awsvpc",
+  "cpu": "512",
+  "memory": "2048",
+  "executionRoleArn": "arn:aws:iam::098824477125:role/ecsTaskExecutionRole",
+  "containerDefinitions": [
+    {
+      "name": "ecg-ai",
+      "image": "REPLACE_IMAGE_URI",
+      "portMappings": [
+        {
+          "containerPort": 8501,
+          "protocol": "tcp",
+          "name": "streamlit-port"
+        }
+      ],
+      "essential": true,
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/ecg-ai",
+          "awslogs-region": "us-east-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      },
+      "stopTimeout": 120,
+      "startTimeout": 300
+    }
+  ],
+  "tags": [
+    {
+      "key": "Project",
+      "value": "ECGAI"
+    },
+    {
+      "key": "Environment",
+      "value": "Production"
+    },
+    {
+      "key": "Owner",
+      "value": "RidwanOladipo-MD"
+    },
+    {
+      "key": "Application",
+      "value": "Cardiac-ECG-Classification-AI"
+    }
+  ]
+}
