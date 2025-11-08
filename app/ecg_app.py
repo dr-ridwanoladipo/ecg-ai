@@ -117,7 +117,7 @@ def main():
         # Before prediction
         if not st.session_state.show_prediction:
             st.markdown("#### Pre-Colored ECG Trace")
-            st.info("ECG color-coded by true diagnosis. Click **Run AI Prediction** below to analyze.")
+            st.info("ECG color-coded by true diagnosis.")
             overlay_type = "clean"
 
         # After prediction
