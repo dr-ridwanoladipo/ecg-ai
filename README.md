@@ -39,7 +39,7 @@ ECG interpretation is one of the most time-critical tasks in medicine, where rap
 ## 🌐 Deployment Options
 - **Live Demos**: Instant access via HuggingFace (UI + API)
 - **Production (On-Demand)**: Fully deployed on AWS ECS Fargate at *ecg.mednexai.com* — **available by request**  
->⚡ **AWS Production**: [ecg.mednexai.com](https://ecg.mednexai.com) — CI/CD-enabled, <10 minutes cold-start (cost-optimized)
+>⚡ **AWS Production**: ecg.mednexai.com — CI/CD-enabled, <10 minutes cold-start (cost-optimized)
 
 ---
 
