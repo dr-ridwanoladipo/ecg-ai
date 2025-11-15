@@ -52,13 +52,15 @@ ECG interpretation is one of the most time-critical tasks in medicine, where rap
 
 ## ⚙️ System Architecture
 
-    graph LR
-    A[Raw ECG + Demographics] --> B[Preprocessing Pipeline]
-    B --> C[ResNet-1D + Dense Fusion Model]
-    C --> D[Grad-CAM + SHAP Explainability]
-    D --> E[FastAPI Backend (ECG Diagnosis API)]
-    E --> F[Streamlit Clinical Interface]
-    F --> G[AWS Fargate Deployment]
+```mermaid
+graph LR
+A[Raw ECG + Demographics] --> B[Preprocessing Pipeline]
+B --> C[ResNet-1D + Dense Fusion Model]
+C --> D[Grad-CAM + SHAP Explainability]
+D --> E[FastAPI Backend (ECG Diagnosis API)]
+E --> F[Streamlit Clinical Interface]
+F --> G[AWS Fargate Deployment]
+```
 
 **Tech Stack:** TensorFlow/Keras • FastAPI • Streamlit • AWS ECS Fargate • Docker • GitHub Actions • SHAP • Plotly
 
