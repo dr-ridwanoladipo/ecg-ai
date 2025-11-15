@@ -66,6 +66,15 @@ F --> G[AWS Fargate Deployment]
 
 ---
 
+## 📖 Development Pipeline
+| Phase | Focus                                                                                                   |
+|-------|---------------------------------------------------------------------------------------------------------|
+| **[Preprocessing](https://github.com/dr-ridwanoladipo/ecg-ai/blob/master/notebooks/clinical-ecg-preprocessing-pipeline.ipynb)** | PTB-XL ingestion · diagnostic superclass mapping · ECG cleaning · feature extraction                    |
+| **[Training](https://github.com/dr-ridwanoladipo/ecg-ai/blob/master/notebooks/clinical-ecg-training-pipeline.ipynb)** | Multimodal ResNet-1D + tabular fusion · PTB-XL strat_fold split · early stopping + ReduceLROnPlateau |
+| **[Evaluation & Interpretability](https://github.com/dr-ridwanoladipo/ecg-ai/blob/master/notebooks/clinical-ecg-evaluation-interpretability.ipynb)** | Grad-CAM waveform attribution · SHAP feature importance · confusion matrix · AUC/Recall/Precision       |
+
+---
+
 ## 🩺 Clinical Interface Showcase
 - 12-lead ECG visualization with clinical overlays  
 - Grad-CAM & SHAP explainability for transparent AI decisions  
