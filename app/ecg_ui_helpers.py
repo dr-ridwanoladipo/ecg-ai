@@ -658,7 +658,8 @@ def display_footer():
 
     <div class="cardiac-footer">
         <div class="footer-links">
-            <a href="https://github.com/dr-ridwanoladipo/ecg-ai">💻 GitHub Repository</a>
+            <a href="https://github.com/dr-ridwanoladipo/ecg-ai#readme">💻 GitHub Repository</a>
+            <a href="https://huggingface.co/spaces/dr-ridwanoladipo/ecg-ai-api">🔗 Live API Demo</a>
             <p style="margin-top: 1rem; font-weight: 600; color: #bfdbfe;">📊 Kaggle Notebooks Collection</p>
             <a href="https://www.kaggle.com/code/ridwanoladipoai/ecg-ai-preprocessing">Preprocessing Notebook</a>
             <a href="https://www.kaggle.com/code/ridwanoladipoai/ecg-ai-training">Training Notebook</a>
