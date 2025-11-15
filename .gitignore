@@ -2,8 +2,12 @@
 venv
 .idea
 
-curated_cases/
-precolored_ecgs/
+evaluation_results/curated_cases/*
+!evaluation_results/curated_cases/case_1_gradcam_single.png
+
+evaluation_results/precolored_ecgs/*
+!evaluation_results/precolored_ecgs/case_1_ecg_single_clean.png
+
 /ecg_api.log
 /api_test_results.http
 /ecg_api_collection.json
