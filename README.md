@@ -64,8 +64,9 @@ F --> G[AWS Fargate Deployment]
 
 **Tech Stack:** TensorFlow/Keras • FastAPI • Streamlit • AWS ECS Fargate • Docker • GitHub Actions • SHAP • Plotly
 
+---
 
-### 🩺 Clinical Interface Showcase
+## 🩺 Clinical Interface Showcase
 - 12-lead ECG visualization with clinical overlays  
 - Grad-CAM & SHAP explainability for transparent AI decisions  
 - Seven curated clinical cases highlighting interpretability, accuracy, and clinician-friendly UX
