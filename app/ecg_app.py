@@ -1,5 +1,5 @@
 """
-🫀 ECG Classification AI - Streamlit Application
+🫀 ECG Diagnosis AI - Streamlit Application
 Medical AI interface for cardiac arrhythmia analysis.
 
 Author: Ridwan Oladipo, MD | AI Specialist
@@ -13,7 +13,7 @@ from ecg_ui_helpers import *
 
 
 st.set_page_config(
-    page_title="ECG Classification AI",
+    page_title="ECG Diagnosis AI",
     page_icon="🫀",
     layout="wide",
     initial_sidebar_state="expanded"

@@ -1,5 +1,5 @@
 """
-🫀 ECG Classification AI - Helper Functions
+🫀 ECG Diagnosis AI - Helper Functions
 Medical AI interface for cardiac arrhythmia analysis.
 
 Author: Ridwan Oladipo, MD | AI Specialist
