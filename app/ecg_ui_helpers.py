@@ -2,7 +2,7 @@
 🫀 ECG Diagnosis AI - Helper Functions
 Medical AI interface for cardiac arrhythmia analysis.
 
-Author: Ridwan Oladipo, MD | Medical AI Specialist
+Author: Ridwan Oladipo, MD | Clinical AI Architect
 """
 
 import streamlit as st
@@ -666,7 +666,7 @@ def display_footer():
             <a href="https://www.kaggle.com/code/ridwanoladipoai/clinical-ecg-evaluation-interpretability">Evaluation Notebook</a>
         </div>
         <br>
-        <p>© 2025 Ridwan Oladipo, MD | Medical AI Specialist</p>
+        <p>© 2025 Ridwan Oladipo, MD | Clinical AI Architect</p>
         <p style="font-size: 0.9rem; opacity: 0.8;">
             ⚠️ Built to FDA-grade standards for clinical deployment.
             All medical decisions should be made in consultation with qualified healthcare providers.
