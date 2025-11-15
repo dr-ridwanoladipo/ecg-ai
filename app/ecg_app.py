@@ -2,7 +2,7 @@
 🫀 ECG Diagnosis AI - Streamlit Application
 Medical AI interface for cardiac arrhythmia analysis.
 
-Author: Ridwan Oladipo, MD | AI Specialist
+Author: Ridwan Oladipo, MD | Clinical AI Architect
 """
 
 import streamlit as st
@@ -29,7 +29,7 @@ def main():
     <div class="cardiac-header">
         <h1>🫀 ECG Diagnosis AI</h1>
         <p>AI-assisted interpretation of cardiac electrical activity</p>
-        <p><strong>By Ridwan Oladipo, MD | AI Specialist</strong></p>
+        <p><strong>By Ridwan Oladipo, MD | Clinical AI Architect</strong></p>
     </div>
     """, unsafe_allow_html=True)
 
