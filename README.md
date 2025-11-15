@@ -57,7 +57,7 @@ graph LR
 A[Raw ECG + Demographics] --> B[Preprocessing Pipeline]
 B --> C[ResNet-1D + Dense Fusion Model]
 C --> D[Grad-CAM + SHAP Explainability]
-D --> E[FastAPI Backend (ECG Diagnosis API)]
+D --> E[FastAPI Backend – ECG Diagnosis API]
 E --> F[Streamlit Clinical Interface]
 F --> G[AWS Fargate Deployment]
 ```
@@ -71,7 +71,8 @@ F --> G[AWS Fargate Deployment]
 - Seven curated clinical cases highlighting interpretability, accuracy, and clinician-friendly UX
 
 ![ECG Grad-CAM Overlay](evaluation_results/curated_cases/case_1_gradcam_single.png)
-*Grad-CAM attribution highlighting segments driving the model’s myocardial infarction prediction.*
+**Grad-CAM attribution highlighting segments driving the model’s myocardial infarction prediction.**
+
 ---
 
 ## 💡 Key Innovations
